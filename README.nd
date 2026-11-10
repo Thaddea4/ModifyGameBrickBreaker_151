@@ -1,0 +1,97 @@
+#  MODIFIKASI GAME BLOCK BREAKER
+
+## 1. Deskripsi Proyek
+
+Proyek ini merupakan modifikasi dari permainan **Block Breaker** menggunakan bahasa pemrograman Python dan library Pygame. Modifikasi dilakukan untuk mengembangkan tampilan visual permainan agar lebih menarik, berwarna, dan memiliki tema bunga.
+
+Permainan ini mempertahankan mekanisme dasar Block Breaker, yaitu pemain menggerakkan papan pemantul untuk menjaga bola agar tidak jatuh dan menghancurkan balok yang tersedia.
+
+## 2. Perubahan dan Modifikasi Permainan
+
+Berikut merupakan perubahan yang telah dilakukan dari program original:
+
+### A. Perubahan Warna Balok
+
+Balok yang sebelumnya menggunakan warna putih dan hijau diubah menjadi kombinasi warna kuning dan pink.
+
+- Warna kuning digunakan untuk balok dengan satu kali ketahanan.
+- Warna pink digunakan untuk balok dengan dua kali ketahanan.
+
+**Screenshot:**
+
+![Balok kuning dan pink](images/screenshot-game.png)
+
+### B. Mengganti Bola Menjadi Bunga
+
+Objek bola original diganti menjadi bunga berwarna merah dengan bagian tengah berwarna kuning. Bentuk bunga dibuat menggunakan beberapa lingkaran yang membentuk kelopak.
+
+Ukuran objek juga diperbesar agar lebih mudah terlihat ketika permainan berlangsung.
+
+### C. Mengubah Papan Pemantul
+
+Papan pemantul yang sebelumnya berwarna putih diubah menjadi ungu. Ukuran lebarnya juga diperbesar dari 100 menjadi 130 piksel agar lebih mudah digunakan untuk memantulkan bunga.
+
+### D. Mengubah Background Permainan
+
+Latar belakang permainan yang sebelumnya berwarna hitam diubah menjadi oranye muda. Selain itu, ditambahkan beberapa dekorasi berupa bunga, lingkaran, dan titik-titik berwarna untuk memperindah tampilan permainan.
+
+### E. Memperbaiki Tampilan Skor dan Nyawa
+
+Warna tulisan skor dan jumlah nyawa disesuaikan menjadi hitam agar lebih jelas dan mudah dibaca pada latar belakang oranye.
+
+### F. Memperbarui Tampilan Game Over
+
+Tampilan Game Over disesuaikan dengan tema permainan. Ditambahkan tulisan GAME OVER berwarna merah dan instruksi untuk memulai permainan kembali menggunakan tombol SPACE.
+
+**Screenshot Game Over:**
+
+![Tampilan Game Over](images/screenshot-gameover.png)
+
+## 3. Fitur Permainan
+
+Beberapa fitur yang terdapat pada permainan hasil modifikasi ini meliputi:
+
+1. Balok dengan kombinasi warna kuning dan pink.
+2. Objek bunga merah sebagai pengganti bola.
+3. Papan pemantul berwarna ungu dengan ukuran lebih besar.
+4. Background oranye dengan dekorasi bunga.
+5. Sistem skor untuk menghitung balok yang berhasil dihancurkan.
+6. Sistem tiga nyawa dalam permainan.
+7. Tampilan Game Over dan fitur bermain kembali.
+
+## 4. Teknologi yang Digunakan
+
+- **Bahasa Pemrograman:** Python
+- **Library:** Pygame
+- **Editor:** Visual Studio Code
+- **Version Control:** Git dan GitHub
+
+## 5. Cara Menjalankan Program
+
+Pastikan Python telah terpasang pada komputer.
+
+Install library Pygame menggunakan perintah:
+
+```bash
+pip install pygame-ce
+```
+
+Kemudian jalankan program dengan perintah:
+
+```bash
+python block_breaker.py
+```
+
+## 6. Kontrol Permainan
+
+| Tombol | Fungsi |
+|---|---|
+| Panah kiri (←) | Menggerakkan papan ke kiri |
+| Panah kanan (→) | Menggerakkan papan ke kanan |
+| SPACE | Memulai kembali permainan setelah Game Over |
+
+## 7. Kesimpulan
+
+Modifikasi permainan Block Breaker dilakukan dengan mengubah tampilan visual dan beberapa elemen permainan tanpa menghilangkan mekanisme dasar permainan. Perubahan meliputi warna balok, bentuk objek utama, ukuran dan warna papan pemantul, latar belakang, dekorasi, serta tampilan informasi permainan.
+
+Hasil modifikasi menghasilkan permainan Block Breaker dengan tema bunga yang lebih menarik, berwarna, dan memiliki tampilan visual yang berbeda dari program original.
