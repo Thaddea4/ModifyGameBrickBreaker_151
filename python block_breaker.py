@@ -110,3 +110,81 @@ def populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap):
             ))
 
     return listOfBlocks
+
+
+# Fungsi yang dijalankan ketika semua nyawa habis
+def gameOver():
+    while True:
+        drawBackground()
+
+        # Menampilkan tulisan permainan berakhir
+        gameOverText = titleFont.render(
+            "GAME OVER", True, RED
+        )
+        gameOverRect = gameOverText.get_rect(
+            center=(WIDTH // 2, HEIGHT // 2 - 20)
+        )
+
+        restartText = font.render(
+            "Tekan SPACE untuk bermain lagi", True, BLACK
+        )
+        restartRect = restartText.get_rect(
+            center=(WIDTH // 2, HEIGHT // 2 + 20)
+        )
+
+        screen.blit(gameOverText, gameOverRect)
+        screen.blit(restartText, restartRect)
+
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    return True
+
+
+# Kelas untuk mengatur papan pemantul
+class Striker:
+    def __init__(self, posx, posy, width,
+                 height, speed, color):
+        self.posx, self.posy = posx, posy
+        self.width, self.height = width, height
+        self.speed = speed
+        self.color = color
+
+        # Membuat bentuk papan pemantul
+        self.strikerRect = pygame.Rect(
+            self.posx, self.posy, self.width, self.height
+        )
+
+        self.striker = pygame.draw.rect(
+            screen, self.color, self.strikerRect
+        )
+
+    # Menampilkan papan pemantul pada layar
+    def display(self):
+        self.striker = pygame.draw.rect(
+            screen, self.color, self.strikerRect,
+            border_radius=8
+        )
+
+    # Mengatur pergerakan papan pemantul
+    def update(self, xFac):
+        self.posx += self.speed * xFac
+
+        # Membatasi pergerakan papan agar tidak keluar layar
+        if self.posx <= 0:
+            self.posx = 0
+        elif self.posx + self.width >= WIDTH:
+            self.posx = WIDTH - self.width
+
+        self.strikerRect = pygame.Rect(
+            self.posx, self.posy, self.width, self.height
+        )
+
+    # Mengembalikan posisi papan untuk pemeriksaan tabrakan
+    def getRect(self):
+        return self.strikerRect
