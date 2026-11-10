@@ -188,3 +188,48 @@ class Striker:
     # Mengembalikan posisi papan untuk pemeriksaan tabrakan
     def getRect(self):
         return self.strikerRect
+
+
+# Kelas untuk mengatur balok
+class Block:
+    def __init__(self, posx, posy, width, height, color):
+        self.posx, self.posy = posx, posy
+        self.width, self.height = width, height
+        self.color = color
+        self.damage = 100
+
+        # Balok pink membutuhkan dua kali benturan
+        # Balok kuning membutuhkan satu kali benturan
+        if color == PINK:
+            self.health = 200
+        else:
+            self.health = 100
+
+        # Membuat bentuk balok
+        self.blockRect = pygame.Rect(
+            self.posx, self.posy, self.width, self.height
+        )
+
+        self.block = pygame.draw.rect(
+            screen, self.color, self.blockRect
+        )
+
+    # Menampilkan balok selama ketahanannya masih ada
+    def display(self):
+        if self.health > 0:
+            self.block = pygame.draw.rect(
+                screen, self.color, self.blockRect,
+                border_radius=4
+            )
+
+    # Mengurangi ketahanan balok ketika terkena bunga
+    def hit(self):
+        self.health -= self.damage
+
+    # Mengembalikan posisi balok
+    def getRect(self):
+        return self.blockRect
+
+    # Mengembalikan sisa ketahanan balok
+    def getHealth(self):
+        return self.health
