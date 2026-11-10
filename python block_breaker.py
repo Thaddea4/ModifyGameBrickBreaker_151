@@ -316,3 +316,137 @@ class Ball:
     # Mengembalikan area tabrakan bunga
     def getRect(self):
         return self.ballRect
+
+
+# Fungsi utama untuk menjalankan permainan
+def main():
+    running = True
+    lives = 3
+    score = 0
+
+    # Mengatur tampilan tulisan skor dan nyawa
+    scoreTextRect = pygame.Rect(25, HEIGHT - 25, 100, 20)
+    livesTextRect = pygame.Rect(145, HEIGHT - 25, 100, 20)
+
+    # Membuat papan pemantul berwarna ungu dan lebih lebar
+    striker = Striker(
+        (WIDTH - 130) // 2,
+        HEIGHT - 50,
+        130, 20, 10, PURPLE
+    )
+
+    strikerXFac = 0
+
+    # Membuat bunga merah dengan ukuran lebih besar
+    ball = Ball(WIDTH // 2, HEIGHT - 150, 12, 5, RED)
+
+    # Mengatur ukuran dan jarak antarbalok
+    blockWidth, blockHeight = 40, 15
+    horizontalGap, verticalGap = 20, 20
+
+    # Membuat kumpulan balok
+    listOfBlocks = populateBlocks(
+        blockWidth, blockHeight,
+        horizontalGap, verticalGap
+    )
+
+    # Perulangan utama permainan
+    while running:
+
+        # Menggambar latar belakang dan hiasan
+        drawBackground()
+
+        # Memperbarui tampilan skor dan nyawa
+        scoreText = font.render(
+            "Score : " + str(score), True, BLACK
+        )
+
+        livesText = font.render(
+            "Lives : " + str(lives), True, BLACK
+        )
+
+        screen.blit(scoreText, scoreTextRect)
+        screen.blit(livesText, livesTextRect)
+
+        # Membuat kembali balok jika semuanya telah hancur
+        if not listOfBlocks:
+            listOfBlocks = populateBlocks(
+                blockWidth, blockHeight,
+                horizontalGap, verticalGap
+            )
+
+        # Memeriksa kondisi ketika semua nyawa habis
+        if lives <= 0:
+            running = gameOver()
+
+            if not running:
+                break
+
+            lives = 3
+            score = 0
+            ball.reset()
+
+            listOfBlocks = populateBlocks(
+                blockWidth, blockHeight,
+                horizontalGap, verticalGap
+            )
+
+        # Mengatur perintah dari keyboard
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                running = False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    strikerXFac = -1
+
+                if event.key == pygame.K_RIGHT:
+                    strikerXFac = 1
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    strikerXFac = 0
+
+        # Memeriksa tabrakan antara bunga dan papan pemantul
+        if collisionChecker(striker.getRect(), ball.getRect()):
+            if ball.yFac > 0:
+                ball.hit()
+
+        # Memeriksa tabrakan antara bunga dan balok
+        for block in listOfBlocks[:]:
+            if collisionChecker(block.getRect(), ball.getRect()):
+                ball.hit()
+                block.hit()
+
+                # Menghapus balok jika ketahanannya habis
+                if block.getHealth() <= 0:
+                    listOfBlocks.remove(block)
+                    score += 5
+
+        # Memperbarui posisi papan pemantul dan bunga
+        striker.update(strikerXFac)
+        lifeLost = ball.update()
+
+        # Mengurangi nyawa jika bunga jatuh
+        if lifeLost:
+            lives -= 1
+            ball.reset()
+
+        # Menampilkan papan pemantul
+        striker.display()
+
+        # Menampilkan semua balok
+        for block in listOfBlocks:
+            block.display()
+
+        # Menampilkan bunga
+        ball.display()
+
+        # Memperbarui tampilan layar
+        pygame.display.update()
+        clock.tick(FPS)
+
+if __name__ == "__main__":
+    main()
+    pygame.quit()
