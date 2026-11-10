@@ -233,3 +233,86 @@ class Block:
     # Mengembalikan sisa ketahanan balok
     def getHealth(self):
         return self.health
+
+
+# Kelas untuk mengatur bunga sebagai pengganti bola
+class Ball:
+    def __init__(self, posx, posy, radius, speed, color):
+        self.posx, self.posy = posx, posy
+        self.radius = radius
+        self.speed = speed
+        self.color = color
+        self.xFac, self.yFac = 1, -1
+
+        # Membuat area tabrakan bunga
+        self.ballRect = pygame.Rect(0, 0, 0, 0)
+
+    # Menampilkan bunga pada layar
+    def display(self):
+
+        # Menggambar delapan kelopak bunga berwarna merah
+        for i in range(8):
+            angle = math.radians(i * 45)
+
+            petalX = self.posx + int(math.cos(angle) * self.radius)
+            petalY = self.posy + int(math.sin(angle) * self.radius)
+
+            pygame.draw.circle(
+                screen, self.color,
+                (petalX, petalY), 8
+            )
+
+        # Menggambar bagian tengah bunga berwarna kuning
+        pygame.draw.circle(
+            screen, YELLOW,
+            (self.posx, self.posy), 7
+        )
+
+        # Memperbarui area tabrakan bunga
+        self.ballRect = pygame.Rect(
+            self.posx - self.radius - 8,
+            self.posy - self.radius - 8,
+            (self.radius + 8) * 2,
+            (self.radius + 8) * 2
+        )
+
+    # Mengatur pergerakan bunga
+    def update(self):
+        self.posx += self.xFac * self.speed
+        self.posy += self.yFac * self.speed
+
+        # Membalik arah bunga ketika menyentuh sisi layar
+        if self.posx <= self.radius + 8 or self.posx >= WIDTH - self.radius - 8:
+            self.xFac *= -1
+
+        # Membalik arah bunga ketika menyentuh bagian atas
+        if self.posy <= self.radius + 8:
+            self.yFac *= -1
+
+        # Memperbarui area tabrakan sesuai posisi bunga
+        self.ballRect = pygame.Rect(
+            self.posx - self.radius - 8,
+            self.posy - self.radius - 8,
+            (self.radius + 8) * 2,
+            (self.radius + 8) * 2
+        )
+
+        # Mengurangi nyawa ketika bunga jatuh ke bawah
+        if self.posy >= HEIGHT:
+            return True
+
+        return False
+
+    # Mengembalikan bunga ke posisi awal
+    def reset(self):
+        self.posx = WIDTH // 2
+        self.posy = HEIGHT - 150
+        self.xFac, self.yFac = 1, -1
+
+    # Mengubah arah gerak bunga ketika terjadi benturan
+    def hit(self):
+        self.yFac *= -1
+
+    # Mengembalikan area tabrakan bunga
+    def getRect(self):
+        return self.ballRect
